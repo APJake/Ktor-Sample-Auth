@@ -1,1 +1,1 @@
-web: build/install/ktor-sample-login/bin/ktor-sample-login
+web: build/install/com.apjake.ktor-sample-login/bin/com.apjake.ktor-sample-login
