@@ -1,5 +1,6 @@
 package com.apjake.plugins
 
+import com.apjake.security.token.TokenConfig
 import io.ktor.server.auth.*
 import io.ktor.util.*
 import io.ktor.server.auth.jwt.*
@@ -10,23 +11,22 @@ import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.request.*
 
-fun Application.configureSecurity() {
-    
+fun Application.configureSecurity(config: TokenConfig) {
     authentication {
-            jwt {
-                val jwtAudience = this@configureSecurity.environment.config.property("jwt.audience").getString()
-                realm = this@configureSecurity.environment.config.property("jwt.realm").getString()
-                verifier(
-                    JWT
-                        .require(Algorithm.HMAC256("secret"))
-                        .withAudience(jwtAudience)
-                        .withIssuer(this@configureSecurity.environment.config.property("jwt.domain").getString())
-                        .build()
-                )
-                validate { credential ->
-                    if (credential.payload.audience.contains(jwtAudience)) JWTPrincipal(credential.payload) else null
-                }
+        jwt {
+            realm = this@configureSecurity.environment.config.property("jwt.realm").getString()
+            verifier(
+                JWT
+                    .require(Algorithm.HMAC256(config.secret))
+                    .withAudience(config.audience)
+                    .withIssuer(config.issuer)
+                    .build()
+            )
+            validate { credential ->
+                if (credential.payload.audience.contains(config.audience)) {
+                    JWTPrincipal(credential.payload)
+                } else null
             }
         }
-
+    }
 }
