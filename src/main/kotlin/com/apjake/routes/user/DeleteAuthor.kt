@@ -5,18 +5,18 @@ import com.apjake.data.responses.BaseResponse
 import com.apjake.data.user.UserDataSource
 import com.apjake.plugins.pipelines.Role
 import com.apjake.plugins.pipelines.withAnyRole
-import com.apjake.plugins.pipelines.withRole
 import com.apjake.utils.throwable.JakeThrowable
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import org.koin.ktor.ext.inject
 
-fun Route.deleteAuthor(
-    userDataSource: UserDataSource,
-    authorDataSource: AuthorDataSource
-) {
+fun Route.deleteAuthor() {
+    val userDataSource by inject<UserDataSource>()
+    val authorDataSource by inject<AuthorDataSource>()
+
     authenticate {
         withAnyRole(*Role.managerRoles) {
             delete("{id}") {

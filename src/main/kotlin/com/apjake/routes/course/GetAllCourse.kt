@@ -9,10 +9,10 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import org.koin.ktor.ext.inject
 
-fun Route.getCourses(
-    courseDataSource: CourseDataSource
-) {
+fun Route.getCourses() {
+    val courseDataSource by inject<CourseDataSource>()
     get {
         val query = call.request.queryParameters["q"] ?: ""
         val page = call.request.queryParameters["page"]?.toInt() ?: 0

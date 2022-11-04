@@ -7,10 +7,10 @@ import com.apjake.utils.throwable.JakeThrowable
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import org.koin.ktor.ext.inject
 
-fun Route.getDetailCourse(
-    courseDataSource: CourseDataSource
-) {
+fun Route.getDetailCourse() {
+    val courseDataSource by inject<CourseDataSource>()
     get("{id}") {
         val courseId = call.parameters["id"] ?: kotlin.run {
             throw JakeThrowable.badRequest

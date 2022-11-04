@@ -13,12 +13,13 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import org.koin.ktor.ext.inject
 
 
-fun Route.signUp(
-    hashingService: HashingService,
-    userDataSource: UserDataSource
-) {
+fun Route.signUp() {
+    val userDataSource by inject<UserDataSource>()
+    val hashingService by inject<HashingService>()
+
     post("signup") {
         val request = call.receiveNullable<AuthRequest>() ?: kotlin.run {
             throw JakeThrowable.badRequest

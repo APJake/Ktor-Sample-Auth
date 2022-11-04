@@ -16,13 +16,14 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import org.koin.ktor.ext.inject
 
-fun Route.signIn(
-    hashingService: HashingService,
-    userDataSource: UserDataSource,
-    tokenService: TokenService,
-    tokenConfig: TokenConfig
-) {
+fun Route.signIn() {
+    val userDataSource by inject<UserDataSource>()
+    val hashingService by inject<HashingService>()
+    val tokenService by inject<TokenService>()
+    val tokenConfig by inject<TokenConfig>()
+
     post("signin") {
         val request = call.receiveNullable<AuthRequest>() ?: kotlin.run {
             throw JakeThrowable.badRequest
