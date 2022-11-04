@@ -5,18 +5,15 @@ import com.apjake.data.user.UserDataSource
 import com.apjake.routes.course.createCourse
 import com.apjake.routes.course.getCourses
 import com.apjake.routes.course.getDetailCourse
-import io.ktor.server.application.*
 import io.ktor.server.routing.*
 
-fun Application.configureCourseRouting(
+fun Route.configureCourseRoutes(
     courseDataSource: CourseDataSource,
     userDataSource: UserDataSource,
 ) {
-    routing {
-        route("/api/v1/course") {
-            getCourses(courseDataSource)
-            createCourse(courseDataSource, userDataSource)
-            getDetailCourse(courseDataSource)
-        }
+    route("/v1/course") {
+        getCourses(courseDataSource)
+        createCourse(courseDataSource, userDataSource)
+        getDetailCourse(courseDataSource)
     }
 }
