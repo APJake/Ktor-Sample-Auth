@@ -1,15 +1,12 @@
 package com.apjake.plugins
 
 import com.apjake.security.token.TokenConfig
-import io.ktor.server.auth.*
-import io.ktor.util.*
-import io.ktor.server.auth.jwt.*
+import com.apjake.utils.AppConstants
 import com.auth0.jwt.JWT
-import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.server.application.*
-import io.ktor.server.response.*
-import io.ktor.server.request.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 
 fun Application.configureSecurity(config: TokenConfig) {
     authentication {
@@ -30,3 +27,9 @@ fun Application.configureSecurity(config: TokenConfig) {
         }
     }
 }
+
+val JWTPrincipal.userId: String?
+    get() = this.getClaim(AppConstants.TOKEN_KEY_USER_ID, String::class)
+
+val JWTPrincipal.userRole: String?
+    get() = this.getClaim(AppConstants.TOKEN_KEY_USER_ROLE, String::class)
