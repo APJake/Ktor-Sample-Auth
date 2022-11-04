@@ -1,4 +1,4 @@
-package com.apjake.plugins.routing
+package com.apjake.routes
 
 import com.apjake.data.author.AuthorDataSource
 import com.apjake.data.user.UserDataSource

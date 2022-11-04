@@ -1,24 +1,17 @@
 package com.apjake
 
-import arrow.core.left
-import arrow.core.right
 import com.apjake.data.author.AuthorDataSourceImpl
-import com.apjake.data.course.CourseDataSource
 import com.apjake.data.course.CourseDataSourceImpl
 import com.apjake.data.user.UserDataSourceImpl
 import io.ktor.server.application.*
 import com.apjake.plugins.*
-import com.apjake.plugins.routing.configureAuthRouting
-import com.apjake.plugins.routing.configureCourseRouting
-import com.apjake.plugins.routing.configureTestRouting
-import com.apjake.plugins.routing.configureUserRouting
+import com.apjake.routes.configureAuthRouting
+import com.apjake.routes.configureCourseRouting
+import com.apjake.routes.configureTestRouting
+import com.apjake.routes.configureUserRouting
 import com.apjake.security.hashing.SHA256HashingService
 import com.apjake.security.token.JwtTokenService
 import com.apjake.security.token.TokenConfig
-import io.ktor.server.auth.*
-import io.ktor.server.auth.jwt.*
-import org.litote.kmongo.coroutine.coroutine
-import org.litote.kmongo.reactivestreams.KMongo
 
 fun main(args: Array<String>): Unit =
     io.ktor.server.netty.EngineMain.main(args)

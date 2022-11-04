@@ -1,4 +1,4 @@
-package com.apjake.plugins.routing
+package com.apjake.routes
 
 import com.apjake.routes.test.testRoute
 import io.ktor.server.application.*

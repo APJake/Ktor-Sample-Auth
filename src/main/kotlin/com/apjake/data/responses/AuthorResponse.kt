@@ -1,5 +1,8 @@
 package com.apjake.data.responses
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class AuthorResponse(
     val id: String,
     val displayName: String,

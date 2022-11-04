@@ -5,7 +5,7 @@ import com.apjake.data.requests.CourseRequest
 import com.apjake.data.responses.BaseResponse
 import com.apjake.data.responses.Nothing
 import com.apjake.data.user.UserDataSource
-import com.apjake.mapper.CourseMapperWithParams
+import com.apjake.mapper.CourseMapper
 import com.apjake.plugins.pipelines.Role
 import com.apjake.plugins.pipelines.withAnyRole
 import com.apjake.usecase.RetrieveAuthor
@@ -38,7 +38,7 @@ fun Route.createCourse(
                     throw JakeThrowable(request.firstErrorMessage)
                 }
 
-                val course = CourseMapperWithParams.getModel(request, CourseMapperWithParams.Param(author))
+                val course = CourseMapper.getModel(request, CourseMapper.Param(author))
 
                 val wasAcknowledge = courseDataSource.createCourse(course)
 

@@ -5,7 +5,7 @@ import com.apjake.data.requests.AuthorRequest
 import com.apjake.data.responses.BaseResponse
 import com.apjake.data.responses.Nothing
 import com.apjake.data.user.UserDataSource
-import com.apjake.mapper.AuthorMapperWithParams
+import com.apjake.mapper.AuthorMapper
 import com.apjake.plugins.pipelines.Role
 import com.apjake.plugins.pipelines.withAnyRole
 import com.apjake.utils.throwable.JakeThrowable
@@ -36,7 +36,7 @@ fun Route.makeAuthor(
                         detail = request.allErrorMessage
                     )
                 }
-                val author = AuthorMapperWithParams.getModel(request)
+                val author = AuthorMapper.getModel(request)
 
                 val targetUser = userDataSource.getUserById(targetUserId) ?: kotlin.run {
                     throw JakeThrowable(

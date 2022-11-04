@@ -7,7 +7,7 @@ import com.apjake.data.responses.CourseResponse
 import com.apjake.utils.base.Params
 import com.apjake.utils.base.TriMapperWithParams
 
-object CourseMapperWithParams : TriMapperWithParams<CourseRequest, Course, CourseResponse, CourseMapperWithParams.Param> {
+object CourseMapper : TriMapperWithParams<CourseRequest, Course, CourseResponse, CourseMapper.Param> {
     override fun getModel(request: CourseRequest, param: Param): Course {
         return with(request) {
             Course(

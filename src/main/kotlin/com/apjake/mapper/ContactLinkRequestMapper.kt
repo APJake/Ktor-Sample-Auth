@@ -5,7 +5,7 @@ import com.apjake.data.requests.ContactLinkRequest
 import com.apjake.data.responses.ContactResponse
 import com.apjake.utils.base.TriMapper
 
-object ContactLinkRequestMapperWithParams : TriMapper<ContactLinkRequest, ContactLink, ContactResponse> {
+object ContactLinkRequestMapper : TriMapper<ContactLinkRequest, ContactLink, ContactResponse> {
     override fun getModel(request: ContactLinkRequest): ContactLink {
         return with(request) {
             ContactLink(

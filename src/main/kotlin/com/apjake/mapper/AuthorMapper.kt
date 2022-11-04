@@ -3,10 +3,9 @@ package com.apjake.mapper
 import com.apjake.data.author.Author
 import com.apjake.data.requests.AuthorRequest
 import com.apjake.data.responses.AuthorResponse
-import com.apjake.utils.base.EmptyParam
 import com.apjake.utils.base.TriMapper
 
-object AuthorMapperWithParams : TriMapper<AuthorRequest, Author, AuthorResponse> {
+object AuthorMapper : TriMapper<AuthorRequest, Author, AuthorResponse> {
     override fun getModel(request: AuthorRequest): Author {
         return with(request) {
             Author(
@@ -14,7 +13,7 @@ object AuthorMapperWithParams : TriMapper<AuthorRequest, Author, AuthorResponse>
                 role = role,
                 description = description,
                 profileUrl = profileUrl,
-                links = links.map { ContactLinkRequestMapperWithParams.getModel(it) }
+                links = links.map { ContactLinkRequestMapper.getModel(it) }
             )
         }
     }
@@ -27,7 +26,7 @@ object AuthorMapperWithParams : TriMapper<AuthorRequest, Author, AuthorResponse>
                 role = role,
                 description = description,
                 profileUrl = profileUrl,
-                links = links.map { ContactLinkRequestMapperWithParams.getResponse(it) }
+                links = links.map { ContactLinkRequestMapper.getResponse(it) }
             )
         }
     }

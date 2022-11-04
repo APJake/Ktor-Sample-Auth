@@ -3,7 +3,7 @@ package com.apjake.routes.course
 import com.apjake.data.course.CourseDataSource
 import com.apjake.data.responses.BaseResponse
 import com.apjake.data.responses.CoursesResponse
-import com.apjake.mapper.CourseMapperWithParams
+import com.apjake.mapper.CourseMapper
 import com.apjake.utils.extensions.parseStringArray
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -30,7 +30,7 @@ fun Route.getCourses(
             HttpStatusCode.OK,
             BaseResponse.success(
                 CoursesResponse(courses.map {
-                    CourseMapperWithParams.getResponse(it)
+                    CourseMapper.getResponse(it)
                 })
             )
         )
