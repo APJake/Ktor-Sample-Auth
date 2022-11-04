@@ -1,8 +1,5 @@
 package com.apjake.utils.base
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 abstract class BaseRequest {
     private val invalidMessageList = mutableListOf<String>()
     protected fun invalid(message: String) {

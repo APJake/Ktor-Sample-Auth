@@ -16,7 +16,7 @@ data class AuthorRequest(
         if (displayName.isBlank() && role.isBlank() || description.isBlank())
             invalid("Fields shouldn't be empty")
 
-        if (IsValidUrl(profileUrl))
+        if (!IsValidUrl(profileUrl))
             invalid("Invalid profile url")
 
         if (links.any { !it.isValid }) {

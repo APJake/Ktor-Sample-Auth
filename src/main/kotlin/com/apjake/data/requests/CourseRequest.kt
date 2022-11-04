@@ -16,9 +16,9 @@ data class CourseRequest(
     val categories: List<String>
 ) : BaseRequest() {
     override val validator = {
-        if (title.isNotBlank() || description.isNotBlank()
-            || detailHTML.isNotBlank() || posterUrl.isNotBlank()
-            || type.isNotBlank() || categories.isEmpty()
+        if (title.isBlank() || description.isBlank()
+            || detailHTML.isBlank() || posterUrl.isBlank()
+            || type.isBlank() || categories.isEmpty()
         ) {
             invalid("Fields shouldn't be empty")
         }
