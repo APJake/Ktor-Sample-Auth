@@ -18,7 +18,7 @@ class CourseDataSourceImpl(
     }
 
     override suspend fun deleteCourseById(id: String): Boolean {
-        return courses.deleteOneById(id).wasAcknowledged()
+        return courses.deleteOneById(ObjectId(id)).wasAcknowledged()
     }
 
     override suspend fun updateCourse(course: Course): Boolean {
@@ -61,6 +61,6 @@ class CourseDataSourceImpl(
     }
 
     override suspend fun getCourseDetail(courseId: String): Course? {
-        return courses.findOneById(courseId)
+        return courses.findOneById(ObjectId(courseId))
     }
 }
