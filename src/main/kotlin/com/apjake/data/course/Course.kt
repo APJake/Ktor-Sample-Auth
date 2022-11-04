@@ -7,7 +7,8 @@ import org.bson.types.ObjectId
 
 data class Course(
     @BsonId
-    val id: ObjectId = ObjectId(),
+    val id: ObjectId,
+    val code: String,
     val title: String,
     val description: String,
     val detailHTML: String,

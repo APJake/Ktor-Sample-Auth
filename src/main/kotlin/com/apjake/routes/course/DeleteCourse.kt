@@ -6,6 +6,7 @@ import com.apjake.data.responses.Nothing
 import com.apjake.plugins.pipelines.Role
 import com.apjake.plugins.pipelines.withAnyRole
 import com.apjake.utils.throwable.JakeThrowable
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.response.*
@@ -25,6 +26,7 @@ fun Route.deleteCourse() {
                     throw JakeThrowable("Failed to delete course")
                 }
                 call.respond(
+                    HttpStatusCode.OK,
                     BaseResponse.success<Nothing>()
                 )
             }

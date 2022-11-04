@@ -1,9 +1,6 @@
 package com.apjake.routes
 
-import com.apjake.routes.course.createCourse
-import com.apjake.routes.course.deleteCourse
-import com.apjake.routes.course.getCourses
-import com.apjake.routes.course.getDetailCourse
+import com.apjake.routes.course.*
 import io.ktor.server.routing.*
 
 fun Route.configureCourseRoutes() {
@@ -12,5 +9,6 @@ fun Route.configureCourseRoutes() {
         createCourse()
         getDetailCourse()
         deleteCourse()
+        updateCourse()
     }
 }

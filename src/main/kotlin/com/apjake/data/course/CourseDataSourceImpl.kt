@@ -63,4 +63,8 @@ class CourseDataSourceImpl(
     override suspend fun getCourseDetail(courseId: String): Course? {
         return courses.findOneById(ObjectId(courseId))
     }
+
+    override suspend fun getCourseByCode(courseCode: String): Course? {
+        return courses.findOne(Course::code eq courseCode)
+    }
 }

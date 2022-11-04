@@ -9,6 +9,7 @@ data class CoursesResponse(
 @Serializable
 data class CourseResponse(
     val id: String,
+    val code: String,
     val title: String,
     val description: String,
     val posterUrl: String,

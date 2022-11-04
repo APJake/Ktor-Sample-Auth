@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CourseRequest(
+    val code: String? = null,
     val title: String,
     val description: String,
     val detailHTML: String,

@@ -3,33 +3,37 @@ package com.apjake.routes.course
 import com.apjake.data.course.CourseDataSource
 import com.apjake.data.requests.CourseRequest
 import com.apjake.data.responses.BaseResponse
-import com.apjake.data.responses.Nothing
 import com.apjake.data.user.UserDataSource
 import com.apjake.mapper.CourseMapper
 import com.apjake.plugins.pipelines.Role
 import com.apjake.plugins.pipelines.withAnyRole
 import com.apjake.usecase.RetrieveAuthor
 import com.apjake.utils.throwable.JakeThrowable
-import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import org.bson.types.ObjectId
 import org.koin.ktor.ext.inject
 
-fun Route.createCourse() {
+
+fun Route.updateCourse() {
     val userDataSource by inject<UserDataSource>()
     val courseDataSource by inject<CourseDataSource>()
 
     authenticate {
         withAnyRole(*Role.courseCreatorRoles) {
-            post {
+            put("{id}") {
                 val author = RetrieveAuthor(
                     call.principal<JWTPrincipal>(),
                     userDataSource
                 )
+
+                val courseId = call.parameters["id"] ?: kotlin.run {
+                    throw JakeThrowable.badRequest
+                }
 
                 val request = call.receiveNullable<CourseRequest>() ?: kotlin.run {
                     throw JakeThrowable("Invalid request")
@@ -39,21 +43,24 @@ fun Route.createCourse() {
                     throw JakeThrowable(request.firstErrorMessage)
                 }
 
-                val course = CourseMapper.getModel(request, CourseMapper.Param(author))
+                val course = CourseMapper
+                    .getModel(request, CourseMapper.Param(author))
+                    .copy(
+                        id = ObjectId(courseId)
+                    )
                 val hasCourse = courseDataSource.getCourseByCode(course.code) != null
 
                 if (hasCourse) {
                     throw JakeThrowable("Course code already exists")
                 }
 
-                val wasAcknowledge = courseDataSource.createCourse(course)
+                val wasAcknowledge = courseDataSource.updateCourse(course)
 
                 if (!wasAcknowledge) {
-                    throw JakeThrowable("Failed to create course")
+                    throw JakeThrowable.failedTo("update course")
                 }
 
                 call.respond(
-                    HttpStatusCode.OK,
                     BaseResponse.success(
                         CourseMapper.getResponse(course)
                     )

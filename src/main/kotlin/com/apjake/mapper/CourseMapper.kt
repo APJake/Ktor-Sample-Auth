@@ -6,11 +6,15 @@ import com.apjake.data.requests.CourseRequest
 import com.apjake.data.responses.CourseResponse
 import com.apjake.utils.base.Params
 import com.apjake.utils.base.TriMapperWithParams
+import org.bson.types.ObjectId
 
 object CourseMapper : TriMapperWithParams<CourseRequest, Course, CourseResponse, CourseMapper.Param> {
     override fun getModel(request: CourseRequest, param: Param): Course {
         return with(request) {
+            val id = ObjectId()
             Course(
+                id = id,
+                code = code?: id.toHexString(),
                 title = title,
                 description = description,
                 detailHTML = detailHTML,
@@ -30,6 +34,7 @@ object CourseMapper : TriMapperWithParams<CourseRequest, Course, CourseResponse,
         return with(model) {
             CourseResponse(
                 id = id.toHexString(),
+                code = code,
                 title = title,
                 description = description,
                 posterUrl = posterUrl,

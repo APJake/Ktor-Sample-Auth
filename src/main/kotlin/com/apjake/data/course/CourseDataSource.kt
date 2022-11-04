@@ -7,4 +7,5 @@ interface CourseDataSource {
     suspend fun getCourses(search: String, categories: List<String>, page: Int, limit: Int): List<Course>
     suspend fun getCoursesByAuthorId(authorId: String, page: Int, limit: Int): List<Course>
     suspend fun getCourseDetail(courseId: String): Course?
+    suspend fun getCourseByCode(courseCode: String): Course?
 }
