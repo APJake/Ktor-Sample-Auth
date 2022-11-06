@@ -23,9 +23,15 @@ data class JakeThrowable(
             code = 403,
             message = "Unauthorized"
         )
+
         fun failedTo(message: String) = JakeThrowable(
             code = 400,
             message = "Failed to $message",
+        )
+
+        fun noSuch(name: String) = JakeThrowable(
+            code = 400,
+            message = "There is no such $name"
         )
     }
 }
