@@ -10,8 +10,11 @@ import io.ktor.server.routing.*
 
 fun Route.testRoute(){
     authenticate {
+        get {
+            call.respond("It's working")
+        }
         withRole(Role.Admin){
-            get {
+            get("role") {
                 call.respond("I am admin")
             }
         }
