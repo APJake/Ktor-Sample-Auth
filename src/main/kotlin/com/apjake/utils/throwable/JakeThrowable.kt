@@ -21,7 +21,7 @@ data class JakeThrowable(
         )
         val unauthorized = JakeThrowable(
             code = 403,
-            message = "Unauthorized"
+            message = "You are not authorized to do this stuff"
         )
 
         fun failedTo(message: String) = JakeThrowable(
