@@ -6,8 +6,8 @@ import io.ktor.server.routing.*
 fun Route.configureCourseRoutes() {
     route("/v1/course") {
         getCourses()
-        createCourse()
         getDetailCourse()
+        createCourse()
         deleteCourse()
         updateCourse()
     }
