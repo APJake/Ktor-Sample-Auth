@@ -14,7 +14,6 @@ fun main(args: Array<String>): Unit =
 fun Application.module() {
 
     install(Koin) {
-        slf4jLogger()
         modules(
             serviceModule(environment),
             dataSourceModule,

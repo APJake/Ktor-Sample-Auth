@@ -10,6 +10,8 @@ import io.ktor.server.response.*
 fun Application.configureExceptions() {
     install(StatusPages) {
         exception<JakeThrowable>() { call, throwable ->
+            call.application.environment.log.error("Error happened in JakeThrowable")
+            throwable.printStackTrace()
             call.respond(
                 HttpStatusCode.fromValue(
                     throwable.code
@@ -18,6 +20,8 @@ fun Application.configureExceptions() {
             )
         }
         exception<Throwable>() { call, throwable ->
+            call.application.environment.log.error("Error happened in Throwable")
+            throwable.printStackTrace()
             call.respond(
                 HttpStatusCode.InternalServerError,
                 BaseResponse.fromThrowable(throwable)
