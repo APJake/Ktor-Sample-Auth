@@ -39,6 +39,12 @@ fun Route.makeAuthor() {
                 }
                 val author = AuthorMapper.getModel(request)
 
+                val userWithAuthorName = authorDataSource.getUserByAuthorName(author.displayName)
+
+                if (userWithAuthorName != null) {
+                    throw JakeThrowable("Author name already exists")
+                }
+
                 val targetUser = userDataSource.getUserById(targetUserId) ?: kotlin.run {
                     throw JakeThrowable(
                         message = "Invalid target user",

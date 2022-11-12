@@ -52,6 +52,14 @@ fun Route.updateAuthor() {
                     )
                 }
 
+                if (targetUser.author?.displayName != author.displayName) {
+                    val userWithAuthorName = authorDataSource.getUserByAuthorName(author.displayName)
+
+                    if (userWithAuthorName != null) {
+                        throw JakeThrowable("Author name already exists")
+                    }
+                }
+
                 targetUser.author?.let {
                     author = author.copy(
                         id = it.id
