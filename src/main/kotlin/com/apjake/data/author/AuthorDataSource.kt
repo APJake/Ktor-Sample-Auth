@@ -7,4 +7,9 @@ interface AuthorDataSource {
     suspend fun getUserByAuthorName(authorName: String): User?
     suspend fun updateAuthor(user: User, author: Author): Boolean
     suspend fun removeAuthor(user: User): Boolean
+    suspend fun getAllAuthors(
+        search: String,
+        page: Int,
+        limit: Int
+    ): List<User>
 }

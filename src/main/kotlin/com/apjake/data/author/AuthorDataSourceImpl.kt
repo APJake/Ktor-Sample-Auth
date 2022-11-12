@@ -6,12 +6,24 @@ import com.apjake.utils.helper.lt
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.div
 import org.litote.kmongo.eq
+import org.litote.kmongo.ne
+import org.litote.kmongo.regex
 
 class AuthorDataSourceImpl(
     db: CoroutineDatabase
 ) : AuthorDataSource {
 
     private val users = db.getCollection<User>()
+
+    override suspend fun getAllAuthors(search: String, page: Int, limit: Int): List<User> {
+        val skip = page * limit
+        return users.find(
+            User::author ne null,
+            User::author.div(Author::displayName).regex(search, "i")
+        ).skip(skip)
+            .limit(limit)
+            .toList()
+    }
 
     override suspend fun getUserByAuthorName(authorName: String): User? {
         return users.findOne(

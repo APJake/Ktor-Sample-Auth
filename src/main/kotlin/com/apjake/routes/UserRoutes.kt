@@ -5,6 +5,7 @@ import io.ktor.server.routing.*
 
 fun Route.configureUserRoutes() {
     route("/v1/author") {
+        getAllAuthors()
         makeAuthor()
         deleteAuthor()
         updateAuthor()
