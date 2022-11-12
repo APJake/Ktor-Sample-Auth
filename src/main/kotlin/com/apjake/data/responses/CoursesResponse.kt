@@ -1,4 +1,5 @@
 package com.apjake.data.responses
+
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -20,4 +21,6 @@ data class CourseResponse(
     val rateAmount: Long,
     val rateCounts: Long,
     val studentCount: Long,
+    val createdAt: Long,
+    val updatedAt: Long
 )

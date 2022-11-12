@@ -4,12 +4,20 @@ import com.apjake.data.user.User
 import com.apjake.plugins.pipelines.Role
 import com.apjake.utils.helper.lt
 import org.litote.kmongo.coroutine.CoroutineDatabase
+import org.litote.kmongo.div
+import org.litote.kmongo.eq
 
 class AuthorDataSourceImpl(
     db: CoroutineDatabase
 ) : AuthorDataSource {
 
     private val users = db.getCollection<User>()
+
+    override suspend fun getUserByAuthorName(authorName: String): User? {
+        return users.findOne(
+            User::author / Author::displayName eq authorName
+        )
+    }
 
     override suspend fun makeAuthor(user: User, author: Author): Boolean {
         val updatedUser = user.copy(
@@ -33,8 +41,8 @@ class AuthorDataSourceImpl(
         ).wasAcknowledged()
     }
 
-    private fun getUpdatedRole(user: User): Role{
-        if(user.role lt Role.Author) return Role.Author
+    private fun getUpdatedRole(user: User): Role {
+        if (user.role lt Role.Author) return Role.Author
         return user.role
     }
 

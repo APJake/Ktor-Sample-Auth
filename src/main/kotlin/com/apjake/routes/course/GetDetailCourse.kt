@@ -15,9 +15,11 @@ fun Route.getDetailCourse() {
         val courseId = call.parameters["id"] ?: kotlin.run {
             throw JakeThrowable.badRequest
         }
-        val course = courseDataSource.getCourseDetail(courseId) ?: kotlin.run {
-            throw JakeThrowable("No such course")
-        }
+        val course = courseDataSource.getCourseDetail(courseId)
+            ?: courseDataSource.getCourseByCode(courseId)
+            ?: kotlin.run {
+                throw JakeThrowable("No such course")
+            }
         call.respond(
             BaseResponse.success(
                 CourseDetailMapper(course)

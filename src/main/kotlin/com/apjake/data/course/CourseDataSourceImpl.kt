@@ -1,6 +1,7 @@
 package com.apjake.data.course
 
 import com.apjake.data.author.Author
+import org.bson.conversions.Bson
 import org.bson.types.ObjectId
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.eq
@@ -29,22 +30,28 @@ class CourseDataSourceImpl(
         search: String,
         categories: List<String>,
         page: Int,
-        limit: Int
+        limit: Int,
+        sortBy: SortBy
     ): List<Course> {
         val skip = page * limit
-        val filteredCourses = if (categories.isEmpty()) {
-            courses.find(
-                Course::title.regex(search, "i"),
-            )
-        } else {
-            // change in future for better filter with categories
-            // currently the condition of categories is with OR
-            courses.find(
-                Course::title.regex(search, "i"),
-                Course::categories.`in`(categories)
-            )
+        val filters = arrayListOf<Bson>()
+        filters.add(Course::title.regex(search, "i"))
+        if (categories.isEmpty()) {
+            filters.add(Course::categories.`in`(categories))
         }
-        return filteredCourses.skip(skip).limit(limit).toList()
+
+        val filteredCourses = courses.find(*filters.toTypedArray())
+
+        if(sortBy.isDescending){
+            filteredCourses.descendingSort(sortBy.property)
+        }else{
+            filteredCourses.ascendingSort(sortBy.property)
+        }
+
+        return filteredCourses
+            .skip(skip)
+            .limit(limit)
+            .toList()
     }
 
     override suspend fun getCoursesByAuthorId(

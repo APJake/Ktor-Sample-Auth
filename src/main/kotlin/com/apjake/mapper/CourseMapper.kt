@@ -6,6 +6,7 @@ import com.apjake.data.requests.CourseRequest
 import com.apjake.data.responses.CourseResponse
 import com.apjake.utils.base.Params
 import com.apjake.utils.base.TriMapperWithParams
+import com.apjake.utils.helper.DateHelper
 import org.bson.types.ObjectId
 
 object CourseMapper : TriMapperWithParams<CourseRequest, Course, CourseResponse, CourseMapper.Param> {
@@ -14,7 +15,7 @@ object CourseMapper : TriMapperWithParams<CourseRequest, Course, CourseResponse,
             val id = ObjectId()
             Course(
                 id = id,
-                code = code?: id.toHexString(),
+                code = code ?: id.toHexString(),
                 title = title,
                 description = description,
                 detailHTML = detailHTML,
@@ -25,7 +26,9 @@ object CourseMapper : TriMapperWithParams<CourseRequest, Course, CourseResponse,
                 categories = categories,
                 rateAmount = 0,
                 rateCounts = 0,
-                students = emptyList()
+                students = emptyList(),
+                createdAt = DateHelper.nowTimestamp,
+                updatedAt = DateHelper.nowTimestamp
             )
         }
     }
@@ -44,7 +47,9 @@ object CourseMapper : TriMapperWithParams<CourseRequest, Course, CourseResponse,
                 categories = categories,
                 rateAmount = 0,
                 rateCounts = 0,
-                studentCount = students.size.toLong()
+                studentCount = students.size.toLong(),
+                createdAt = createdAt,
+                updatedAt = updatedAt
             )
         }
     }

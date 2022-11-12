@@ -7,7 +7,10 @@ import com.apjake.data.user.UserDataSource
 import com.apjake.mapper.CourseMapper
 import com.apjake.plugins.pipelines.Role
 import com.apjake.plugins.pipelines.withAnyRole
+import com.apjake.plugins.userId
+import com.apjake.plugins.userRole
 import com.apjake.usecase.RetrieveAuthor
+import com.apjake.utils.helper.DateHelper
 import com.apjake.utils.throwable.JakeThrowable
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -31,6 +34,13 @@ fun Route.updateCourse() {
                     userDataSource
                 )
 
+                val userId = call.principal<JWTPrincipal>()?.userId ?: kotlin.run {
+                    throw JakeThrowable.unauthorized
+                }
+                val userRole = call.principal<JWTPrincipal>()?.userRole ?: kotlin.run {
+                    throw JakeThrowable.unauthorized
+                }
+
                 val courseId = call.parameters["id"] ?: kotlin.run {
                     throw JakeThrowable.badRequest
                 }
@@ -46,12 +56,26 @@ fun Route.updateCourse() {
                 val course = CourseMapper
                     .getModel(request, CourseMapper.Param(author))
                     .copy(
-                        id = ObjectId(courseId)
+                        id = ObjectId(courseId),
+                        updatedAt = DateHelper.nowTimestamp
                     )
-                val hasCourse = courseDataSource.getCourseByCode(course.code) != null
 
-                if (hasCourse) {
-                    throw JakeThrowable("Course code already exists")
+                val existingCourse = courseDataSource.getCourseDetail(courseId) ?: kotlin.run {
+                    throw JakeThrowable.noSuch("course to update")
+                }
+
+                if (userRole == Role.Author.roleStr) {
+                    if (existingCourse.author.id != author.id) {
+                        // not the owner
+                        throw JakeThrowable.unauthorized
+                    }
+                }
+
+                if (existingCourse.code != course.code) {
+                    val courseByCode = courseDataSource.getCourseByCode(course.code)
+                    if (courseByCode != null) {
+                        throw JakeThrowable("Course code already exists")
+                    }
                 }
 
                 val wasAcknowledge = courseDataSource.updateCourse(course)

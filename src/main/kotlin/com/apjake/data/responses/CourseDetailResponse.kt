@@ -1,10 +1,6 @@
 package com.apjake.data.responses
 
-import com.apjake.data.author.Author
-import com.apjake.data.user.User
 import kotlinx.serialization.Serializable
-import org.bson.codecs.pojo.annotations.BsonId
-import org.bson.types.ObjectId
 
 @Serializable
 data class CourseDetailResponse(
@@ -20,4 +16,6 @@ data class CourseDetailResponse(
     val rateAmount: Long,
     val rateCounts: Long,
     val studentCount: Long,
+    val createdAt: Long,
+    val updatedAt: Long
 )
