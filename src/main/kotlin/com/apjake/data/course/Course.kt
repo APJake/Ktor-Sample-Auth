@@ -50,4 +50,14 @@ enum class SortBy {
     val isDescending: Boolean
         get() = this == NameDesc || this == DateDesc
                 || this == PriceDesc || this == RatingDesc
+
+    companion object {
+        fun getOrNull(value: String?): SortBy? {
+            if (value == null) return null
+            val index = SortBy.values().indexOfFirst {
+                it.toString().contains(value, ignoreCase = true)
+            }
+            return if (index >= 0) SortBy.values()[index] else null
+        }
+    }
 }

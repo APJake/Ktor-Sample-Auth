@@ -1,6 +1,7 @@
 package com.apjake.routes.course
 
 import com.apjake.data.course.CourseDataSource
+import com.apjake.data.course.SortBy
 import com.apjake.data.responses.BaseResponse
 import com.apjake.data.responses.CoursesResponse
 import com.apjake.mapper.CourseMapper
@@ -18,12 +19,14 @@ fun Route.getCourses() {
         val page = call.request.queryParameters["page"]?.toInt() ?: 0
         val limit = call.request.queryParameters["limit"]?.toInt() ?: 10
         val categories = call.request.queryParameters["categories"].parseStringArray()
+        val sortBy = SortBy.getOrNull(call.request.queryParameters["sortby"]) ?: SortBy.Date
 
         val courses = courseDataSource.getCourses(
             search = query,
             categories = categories,
             page = page,
-            limit = limit
+            limit = limit,
+            sortBy = sortBy
         )
 
         call.respond(
