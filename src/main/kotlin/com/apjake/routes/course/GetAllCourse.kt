@@ -29,6 +29,8 @@ fun Route.getCourses() {
             sortBy = sortBy
         )
 
+        println("Courses: $courses")
+
         call.respond(
             HttpStatusCode.OK,
             BaseResponse.success(

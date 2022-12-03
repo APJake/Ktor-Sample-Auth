@@ -36,7 +36,7 @@ class CourseDataSourceImpl(
         val skip = page * limit
         val filters = arrayListOf<Bson>()
         filters.add(Course::title.regex(search, "i"))
-        if (categories.isEmpty()) {
+        if (categories.isNotEmpty()) {
             filters.add(Course::categories.`in`(categories))
         }
 
