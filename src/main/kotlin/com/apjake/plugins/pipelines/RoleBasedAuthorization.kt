@@ -37,8 +37,6 @@ class RoleBasedAuthorization(config: Configuration) {
             val denyReasons = mutableListOf<String>()
             all?.let {
                 val missing = all - roles
-                println("All: $all")
-                println("Roles: $roles")
                 if (missing.isNotEmpty()) {
                     denyReasons += "Permission required role(s) ${missing.joinToString(" and ")}"
                 }
